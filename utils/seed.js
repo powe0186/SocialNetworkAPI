@@ -6,7 +6,7 @@ connection.on('error', (err) => err);
 
 connection.once('open', async () => {
     console.log('Connected');
-    console.table(userSeeds);
+    
 
     //delete existing data.
     await User.deleteMany({});
@@ -15,5 +15,6 @@ connection.once('open', async () => {
     //Seed users with the data in the data.js file.
     await User.collection.insertMany(userSeeds);
     console.info('Seeding complete! 🌱');
+    console.table(userSeeds);
     process.exit(0);
 });
