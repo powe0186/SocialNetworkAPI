@@ -34,6 +34,14 @@ module.exports = {
         )
         .then((user) => res.json(user))
         .catch((err) => res.status(500).json(err))
+    },
+
+    deleteUser(req, res) {
+        User.deleteOne(
+            { _id: req.params.userId }
+        )
+        .then((user) => res.json(user))
+        .catch((err) => res.status(500).json(err))
     }
 
 }
