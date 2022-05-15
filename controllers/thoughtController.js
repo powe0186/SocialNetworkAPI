@@ -18,6 +18,25 @@ module.exports = {
         .catch((err) => res.status(500).json(err))
     },
 
-    
+    getOneThought(req, res) {
+        Thought.findOne({ _id: req.params.id })
+        .then((thought) => res.json(thought))
+        .catch((err) => res.status(500).json(err))
+    },
+
+    updateThought(req, res) {
+        Thought.findOneAndUpdate(
+            { _id: req.params.id},
+            { ...req.body }
+        )
+        .then((thought) => res.json(thought))
+        .catch((err) => res.status(500).json(err))
+    },
+
+    deleteThought(req, res) {
+        Thought.deleteMany({ _id: req.params.id })
+        .then((thought) => res.json(thought))
+        .catch((err) => res.status(500).json(err))
+    }
 
 }
