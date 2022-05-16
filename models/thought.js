@@ -1,10 +1,14 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 const reactionSchema = require('./reaction');
 
 //Schema for creating a thought:
 
 const thoughtSchema = new Schema(
     {
+        thoughtId: {
+            type: Schema.Types.ObjectId,
+            default: () => Types.ObjectId(),
+        },
         thoughtText: {
             type: String,
             required: true,

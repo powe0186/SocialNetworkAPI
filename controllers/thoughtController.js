@@ -9,14 +9,31 @@ module.exports = {
     getThoughts(req, res) {
         Thought.find()
             .then(async (thoughts) => res.json(thoughts))
-            .catch((err) => res.status(500).json(err))
+            .catch((err) => {
+                console.error(err);
+                res.status(500).json(err)
+        })
     },
 
+    //Need to figure out how to put the message _id into the array for the user who made it.
+
     createThought(req, res) {
-        Thought.create(req.body)
-        .then((thought) => res.json(thought))
-        .catch((err) => res.status(500).json(err))
-    },
+            Thought.create({
+                thoughtText: req.body.thoughtText,
+                username: req.body.username
+            })
+            .then((thought) => 
+            User.findOneAndUpdate(
+                { userId: req.body.userId},
+                {$addToSet: { thoughts: thought.thoughtId } },
+                { runValidators: true, new: true }
+            ))
+            .then((user) => res.json(user))
+            .catch((err) => res.status(500).json(err));
+            
+        },
+        
+    
 
     getOneThought(req, res) {
         Thought.findOne({ _id: req.params.id })
@@ -37,6 +54,6 @@ module.exports = {
         Thought.deleteMany({ _id: req.params.id })
         .then((thought) => res.json(thought))
         .catch((err) => res.status(500).json(err))
-    }
+    },
 
 }
