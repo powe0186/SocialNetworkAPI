@@ -18,6 +18,21 @@ module.exports = {
             .then((user) => res.json({ message: 'friend added!' }))
             .catch((err) => res.status(500).json(err));
 
+    },
+
+    removeFriend(req, res) {
+        User.findOne({ _id: req.params.friendId })
+            .then((friend) =>
+                !friend
+                    ? res.status(404).json({ message: 'No user has that ID.' })
+                    : User.findOneAndUpdate(
+                        { _id: req.params.userId },
+                        { $pull: { friends: friend._id } },
+                        { runValidators: true, new: true }
+                    ))
+            .then((user) => res.json({ message: 'friend removed!' }))
+            .catch((err) => res.status(500).json(err));
+
     }
 
 }

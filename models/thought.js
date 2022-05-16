@@ -5,10 +5,6 @@ const reactionSchema = require('./reaction');
 
 const thoughtSchema = new Schema(
     {
-        thoughtId: {
-            type: Schema.Types.ObjectId,
-            default: () => Types.ObjectId(),
-        },
         thoughtText: {
             type: String,
             required: true,
